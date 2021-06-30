@@ -1,0 +1,14 @@
+
+h2, h3 {
+    font-family: "Crimson Text", Georgia;
+}
+
+.darkmode {
+    background-color: black;
+    color: white;
+}
+
+.lightmode {
+    background-color:white;
+    color: black;
+}
