@@ -7,7 +7,9 @@ const Header = () => {
     const {theme, setTheme} = useContext(ThemeContext);
 
     const handleClick = () => {
+        //cada vez que se active el handleClick, la función setDarMode seteará a darkMode a true o false
         setDarkMode(!darkMode);
+        //tambien tomamos el theme que provee el useContext (viene desde App.js), y lo cambiamos con setTheme
         theme === 'darkmode' ? setTheme('lightmode') : setTheme('darkmode');
     }
     return (
