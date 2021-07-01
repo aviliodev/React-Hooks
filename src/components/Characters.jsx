@@ -32,8 +32,8 @@ const Characters = () => {
             {characters.map(hcharacter => (
                 <div className="ficha">
                     <div className="datos">
-                        <h2>{hcharacter.name}</h2>
-                        <h3>Casa : {hcharacter.house}</h3>    
+                        <h1>{hcharacter.name}</h1>
+                        <h2>Casa : {hcharacter.house}</h2>    
                     </div>
                     <img src={hcharacter.image} alt={hcharacter.name}></img>  
                

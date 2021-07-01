@@ -1,14 +1,21 @@
 
-h2, h3 {
-    font-family: "Crimson Text", Georgia;
+@import url('https://fonts.googleapis.com/css?family=Jolly+Lodger');
+
+* {
+    align-items: center;
+    text-align: center;
+}
+
+h1, h2 {
+    font-family: 'Jolly Lodger';
 }
 
 .darkmode {
     background-color: black;
-    color: white;
+    color: rgb(184, 122, 42);
 }
 
 .lightmode {
-    background-color:white;
-    color: black;
+    background-color:rgb(255, 255, 255);
+    color: rgb(41, 40, 40);
 }

@@ -1,16 +1,16 @@
 .Characters {
 
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: auto ;
     grid-gap: 10px;
     padding: 10px;
 }
 
 .ficha {
-    font-size: 12px;
+    font-size: 14px;
     border-style: solid;
     justify-content: center;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .Characters img {
@@ -18,3 +18,25 @@
     height: 135px;
     /* border-radius: 50%; */
 }
+
+@media screen and (min-width: 500px) {
+    .Characters {
+        grid-template-columns: auto auto;
+    }
+  }
+
+  @media screen and (min-width: 700px) {
+    .Characters {
+        grid-template-columns: auto auto auto;
+    }
+  }
+  @media screen and (min-width: 900px) {
+    .Characters {
+        grid-template-columns: auto auto auto auto;
+    }
+  }
+  @media screen and (min-width: 1100px) {
+    .Characters {
+        grid-template-columns: auto auto auto auto auto;
+    }
+  }      
