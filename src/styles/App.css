@@ -11,8 +11,8 @@ h1, h2 {
 }
 
 .darkmode {
-    background-color: black;
-    color: rgb(184, 122, 42);
+    background-color: #222222;
+    color: rgb(31, 157, 173);
 }
 
 .lightmode {
