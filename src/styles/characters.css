@@ -9,7 +9,8 @@
 .ficha {
     font-size: 14px;
     border-style: solid;
-    justify-content: center;
+    align-items: center;
+    /* justify-content: center; */
     /* text-align: center; */
 }
 
