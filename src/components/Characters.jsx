@@ -1,10 +1,14 @@
-import React, {useState, useEffect, useReducer, useMemo, useRef} from 'react'//1
-import '../styles/characters.css'
+import React, {useState, useReducer, useMemo, useRef, useCallback} from 'react'// ya no es necesario traer useEffect, porque ahora lo usamos en un hook personalizado llamado useCharacters
+import Search from './Search';
+import useCharacters from '../hooks/useCharacters';
+import '../styles/characters.css';
 
     //useReducer 2. Se crea un estado inicial: la lista de favoritos vacia el cual se usará con el useReducer
 const initialState = {
     favorites: []
 };
+
+const API = 'http://hp-api.herokuapp.com/api/characters/'
 
     //useReducer 3. crea el reducer, es una funcion que usa switch para identificar el metodo a usar
     // 	  recive state y action:
@@ -27,12 +31,17 @@ const favoriteReducer = (state, action) => {
   };
 
 const Characters = () => {
+    const characters2 = useCharacters(API);  
+
     /**
      * Lógica de useState
      * constante donde internamente estructuramos los elementos que necesitamos
      * de useState y lo iniciamos como un vector vacío
      */
-const [characters, setCharacters] = useState([]);
+
+    //Ya no se usa este useState, ahora la variable characters es controlada mendiante el hook personalizado useCharacters.
+// const [characters, setCharacters] = useState([]);
+
     //useReducer 4. crea el use reducer:
     // 		favorite: es el nombre el valor de lectura.
     // 		dispatch: el nombre de la funcion para llamar a los metodos.
@@ -49,6 +58,7 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
      * el primero es una función anónima donde va a estar la lógica
      * el segundo es una variable que esta escuchando si hay cambios.
      */
+    /*
     useEffect(() => {
         // useEffect llama a fetch, el cual obtiene la informacion de la api de RickAndMorty (lo cambié a la api de Gibli)
         // fetch('https://rickandmortyapi.com/api/character/') //API DE RICK Y MORTY
@@ -57,6 +67,9 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
         // .then(data => setCharacters(data.results)) //Para que funcione Api de Rick y Morty
         .then(data => setCharacters(data))
     },[]); // La variable que escuchará si hay cambios, en este caso no se usa y por eso se coloca un arreglo vacio.
+    */
+
+
 
         //useReducer 5. Metodo que llama al dispatch / la funcion para acceder a un metodo del reducer
         // 	contiene el type que es el nombre del metodo
@@ -72,9 +85,15 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
     // }
 
       //useRef 2. mismo handleSearch de arriba, pero ahora se utiliza la variable creada con useRef "searchInput", la cual maneja directamente el event del botón Search
-    const handleSearch = ()  => {
-        setSearch(searchInput.current.value)
-    }
+    // const handleSearch = ()  => {
+    //     setSearch(searchInput.current.value)
+    // }
+
+      //useCallback 1. se modificó handleSearch para hacer uso de useCallback
+      const handleSearch = useCallback(() => {
+        setSearch(searchInput.current.value);
+      }, []
+      )
 
         //filtrar 3. filteredUsers filtrará a characters (variable creada con useState que contiene a todos los personajes) y devolverá los personajes
         //  que incluyan (.include) las letras/palabras que estén en la variable search (creada con useState y contiene lo que escriban en el control Search)       
@@ -84,10 +103,10 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
 
         //esta nueva función filteredUsers hace lo mismo que la comentada arriba, pero utiliza useMemo para guardar los resultados ya buscados y asi no buscar todo nuevamente.
     const filteredUsers = useMemo( () => 
-        characters.filter((user) => {
+        characters2.filter((user) => {
             return user.name.toLowerCase().includes(search.toLowerCase());
         }),
-        [characters, search]
+        [characters2, search]
     )
 
     /** 
@@ -103,9 +122,12 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
             ))}
 
             {/* filtrar 4. Control que ejecuta el handleSearch. se activa cuando alguien escribe en el control. */}
-            <div className="Search">
-                <input type="text" value={search} ref={searchInput} onChange={handleSearch}/>
-            </div> 
+            {/* <div className="Search">
+                    <input type="text" value={search} ref={searchInput} onChange={handleSearch}/>
+                </div>  */}
+
+            {/* Ahora le control Search se colocó en un componente aparte. */}
+            <Search search ={search} searchInput={searchInput} handleSearch={handleSearch} />
 
             <div className="Characters">
                 {/* filtrar 5. antes sacabamos los personajes directamente de "characters", ahora los sacamos de "filteredUsers", para solo mostrar los que indique el filtro. */}
