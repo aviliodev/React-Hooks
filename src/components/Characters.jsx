@@ -1,6 +1,8 @@
 import React, {useState, useReducer, useMemo, useRef, useCallback} from 'react'// ya no es necesario traer useEffect, porque ahora lo usamos en un hook personalizado llamado useCharacters
 import Search from './Search';
 import useCharacters from '../hooks/useCharacters';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 import '../styles/characters.css';
 
     //useReducer 2. Se crea un estado inicial: la lista de favoritos vacia el cual se usará con el useReducer
@@ -26,6 +28,18 @@ const favoriteReducer = (state, action) => {
           ...state, //estado original
           favorites: [...state.favorites, action.payload] // a la variable favorites de state, le agregaremos un nuevo elemento, sacado del action.payload (que viene del dispatch)
         };
+
+        case 'REMOVE_FAVORITE':
+            const favoriteIndex = state.favorites.findIndex(
+              (favorite) => favorite.id === action.payload.id
+            );
+            const newFavorites = [...state.favorites];
+            newFavorites.splice(favoriteIndex, 1);
+            return {
+              ...state,
+              favorites: newFavorites,
+            };
+        
         default: return state;
     }
   };
@@ -46,11 +60,11 @@ const Characters = () => {
     // 		favorite: es el nombre el valor de lectura.
     // 		dispatch: el nombre de la funcion para llamar a los metodos.
     // 		useReducer toma dos datos, el primero es el reducer, contenedor del switch de metodos
-const [favorite, dispatch] = useReducer(favoriteReducer, initialState);
+    const [favorite, dispatch] = useReducer(favoriteReducer, initialState);
 
-const [search, setSearch] = useState('');//filtrar 1. Se crea una variable vacia con el useState, que servirá para filtrar los personajes.
+    const [search, setSearch] = useState('');//filtrar 1. Se crea una variable vacia con el useState, que servirá para filtrar los personajes.
 
-const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa para colocar dentro el "ref" del control al que sea asignada.
+    const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa para colocar dentro el "ref" del control al que sea asignada.
 
     /**
      * Lógica de useEffect
@@ -78,6 +92,18 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
     const handleClick = favorite => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite })
       }
+
+      const handleFavorite = (character) => {
+        const findFavorite = favorite.favorites.filter(
+          (favorite) => favorite.id === character.id
+        );
+        console.log(findFavorite);
+        if (!findFavorite.length) {
+          dispatch({ type: 'ADD_TO_FAVORITE', payload: character });
+        } else {
+          dispatch({ type: 'REMOVE_FAVORITE', payload: character });
+        }
+      };    
 
       //filtrar 2. Se creó handleSearch para manejar cuando el usuario escriba en el buscador, desencadene el setSearch, al cual se le manda le value del control de búsqueda.
     //   const handleSearch = event  => {
@@ -142,7 +168,7 @@ const searchInput = useRef(null); //useRef 1. variable creada con useRef. Se usa
                     </div>
                     <div className="Acciones">
                     {/* useReducer 6. onclick, que manda a llamar al dispatch es un onclick que al ejecutarse manda la data del caracter en la funcion. Esta info será mandada al reducer y de ahi al state final en favorite. */}
-                        <button type="button" onClick={() => handleClick(hcharacter)}>Agregar a favoritos</button>     
+                        <button type="button" onClick={() => handleFavorite(hcharacter)}>Agregar a favoritos</button>     
                     </div>                    
                 </div>    
 
