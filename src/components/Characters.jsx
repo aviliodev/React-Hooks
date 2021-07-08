@@ -4,6 +4,7 @@ import useCharacters from '../hooks/useCharacters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import '../styles/characters.css';
+import '../styles/components/Characters.scss'
 
     //useReducer 2. Se crea un estado inicial: la lista de favoritos vacia el cual se usará con el useReducer
 const initialState = {
@@ -30,8 +31,9 @@ const favoriteReducer = (state, action) => {
         };
 
         case 'REMOVE_FAVORITE':
+
             const favoriteIndex = state.favorites.findIndex(
-              (favorite) => favorite.id === action.payload.id
+              (favorite) => favorite.name === action.payload.name
             );
             const newFavorites = [...state.favorites];
             newFavorites.splice(favoriteIndex, 1);
@@ -95,9 +97,9 @@ const Characters = () => {
 
       const handleFavorite = (character) => {
         const findFavorite = favorite.favorites.filter(
-          (favorite) => favorite.id === character.id
+          (favorite) => favorite.name === character.name
         );
-        console.log(findFavorite);
+
         if (!findFavorite.length) {
           dispatch({ type: 'ADD_TO_FAVORITE', payload: character });
         } else {
@@ -146,6 +148,23 @@ const Characters = () => {
                         {favorite.name}
                     </li>
             ))}
+
+            {favorite.favorites.length ? (
+              <div className='Characters__container'>
+                <h2>Favorite characters</h2>
+                <div className='Characters__list Characters__list--favorites'>
+                  {favorite.favorites.map((favorite) => (
+                    <figure key={favorite.id}>
+                      <img
+                        src={favorite.image}
+                        alt={favorite.name}
+                        title={favorite.name}
+                      />
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ) : null}            
 
             {/* filtrar 4. Control que ejecuta el handleSearch. se activa cuando alguien escribe en el control. */}
             {/* <div className="Search">
