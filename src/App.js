@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Header from './components/Header';
 import Characters from './components/Characters';
 import ThemeContext from './context/ThemeContext';
-import '../src/styles/App.css';
+// import '../src/styles/App.css';
 
 function App() {
   //utilizamos un useState para manejar el comportamiento de la variable string "theme" con su respectiva función de cambio "setTheme"
@@ -19,7 +19,9 @@ function App() {
     <ThemeContext.Provider value={{theme, setTheme}}>
       <div className={'App ' + theme}>
           <Header/>
-          <Characters/>
+          <main>
+            <Characters/>
+          </main>
       </div>    
     </ThemeContext.Provider>
 

@@ -3,8 +3,7 @@ import Search from './Search';
 import useCharacters from '../hooks/useCharacters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import '../styles/characters.css';
-import '../styles/components/Characters.scss'
+import '../assets/styles/components/Characters.scss';
 
     //useReducer 2. Se crea un estado inicial: la lista de favoritos vacia el cual se usará con el useReducer
 const initialState = {
@@ -142,7 +141,7 @@ const Characters = () => {
      * Iteramos por cada uno de los elementos
      */
     return (
-        <div className="Api">
+        <div className="Characters">
 
 
             {favorite.favorites.length ? ( //useReducer 7. map al contenido de favorite, listado del contenido de este array, si no hay pues no se ve nada.
@@ -161,36 +160,50 @@ const Characters = () => {
                 </div>
               </div>
             ) : null}            
+            <div className='Characters__container'>
+              {/* filtrar 4. Control que ejecuta el handleSearch. se activa cuando alguien escribe en el control. */}
+              {/* <div className="Search">
+                      <input type="text" value={search} ref={searchInput} onChange={handleSearch}/>
+                  </div>  */}
 
-            {/* filtrar 4. Control que ejecuta el handleSearch. se activa cuando alguien escribe en el control. */}
-            {/* <div className="Search">
-                    <input type="text" value={search} ref={searchInput} onChange={handleSearch}/>
-                </div>  */}
+              {/* Ahora el control Search se colocó en un componente aparte. */}
+              <Search search ={search} searchInput={searchInput} handleSearch={handleSearch} />
 
-            {/* Ahora el control Search se colocó en un componente aparte. */}
-            <Search search ={search} searchInput={searchInput} handleSearch={handleSearch} />
-
-            <div className="Characters">
+              <div className='Characters__list'>
                 {/* filtrar 5. antes sacabamos los personajes directamente de "characters", ahora los sacamos de "filteredUsers", para solo mostrar los que indique el filtro. */}
-                {filteredUsers.map(hcharacter => ( 
-                <div className="Character">
-                    <div className="ficha">
-                        <div className="datos" key={hcharacter.id}>
-                            <h1>{hcharacter.name}</h1>
-                            <h2>Casa : {hcharacter.house}</h2>    
-                        </div>
-                        <img src={hcharacter.image} alt={hcharacter.name}></img>    
+                {filteredUsers.map((hcharacter) => (
+                  <div className='Character' key={hcharacter.id}>
+                    <h3>{hcharacter.name}</h3>
+                    <figure>
+                      <img src={hcharacter.image} alt={hcharacter.name} />
+                      {/* useReducer 6. onclick, que manda a llamar al dispatch es un onclick que al ejecutarse manda la data del caracter en la funcion. Esta info será mandada al reducer y de ahi al state final en favorite. */}
+                      <button
+                        className='btn'
+                        type='button'
+                        onClick={() => handleFavorite(hcharacter)}
+                      >
+                        <FontAwesomeIcon
+                          className={`icon--favorite ${
+                            favorite.favorites.filter(
+                              (favorite) => favorite.name === hcharacter.name
+                            ).length
+                              ? 'favorite'
+                              : ''
+                          }`}
+                          icon={faStar}
+                        />
+                      </button>
+                    </figure>
+                    <div className='Character__info'>
+                      <span>{hcharacter.house}</span>
+                      <span>{hcharacter.species}</span>
+                      <span>{hcharacter.ancestry}</span>
                     </div>
-                    <div className="Acciones">
-                    {/* useReducer 6. onclick, que manda a llamar al dispatch es un onclick que al ejecutarse manda la data del caracter en la funcion. Esta info será mandada al reducer y de ahi al state final en favorite. */}
-                        <button type="button" onClick={() => handleFavorite(hcharacter)}>Agregar a favoritos</button>     
-                    </div>                    
-                </div>    
-
-
+                  </div>
                 ))}
-
+              </div>  
             </div>
+          
         </div>
 
 
