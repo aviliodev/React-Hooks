@@ -143,13 +143,9 @@ const Characters = () => {
      */
     return (
         <div className="Api">
-            {favorite.favorites.map((favorite) => ( //useReducer 7. map al contenido de favorite, listado del contenido de este array, si no hay pues no se ve nada.
-                    <li class='item' key={favorite.id}>
-                        {favorite.name}
-                    </li>
-            ))}
 
-            {favorite.favorites.length ? (
+
+            {favorite.favorites.length ? ( //useReducer 7. map al contenido de favorite, listado del contenido de este array, si no hay pues no se ve nada.
               <div className='Characters__container'>
                 <h2>Favorite characters</h2>
                 <div className='Characters__list Characters__list--favorites'>
@@ -171,7 +167,7 @@ const Characters = () => {
                     <input type="text" value={search} ref={searchInput} onChange={handleSearch}/>
                 </div>  */}
 
-            {/* Ahora le control Search se colocó en un componente aparte. */}
+            {/* Ahora el control Search se colocó en un componente aparte. */}
             <Search search ={search} searchInput={searchInput} handleSearch={handleSearch} />
 
             <div className="Characters">
